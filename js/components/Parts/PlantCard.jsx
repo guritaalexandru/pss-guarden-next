@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+
 export default function PlantCard(props){
 	const {
 		plant,
@@ -11,6 +12,7 @@ export default function PlantCard(props){
 		plantImage,
 		plantType,
 		plantStatuses,
+		plantThresholds,
 	} = plant;
 
 	const {
@@ -18,12 +20,39 @@ export default function PlantCard(props){
 		plantTemperature,
 	} = plantStatuses;
 
+	const {
+		plantHumidityThreshold,
+		plantTemperatureThreshold,
+	} = plantThresholds;
+
+	// Function to determine the class for humidity
+	const humidityClass = () => {
+		if (plantHumidity < plantHumidityThreshold) {
+			return "bg-blue-100 border-blue-500 text-blue-700";
+		} else if (plantHumidity > plantHumidityThreshold) {
+			return "bg-red-100 border-red-500 text-red-700";
+		} else {
+			return "bg-green-100 border-green-500 text-green-700";
+		}
+	};
+
+	// Function to determine the class for temperature
+	const temperatureClass = () => {
+		if (plantTemperature < plantTemperatureThreshold) {
+			return "bg-blue-100 border-blue-500 text-blue-700";
+		} else if (plantTemperature > plantTemperatureThreshold) {
+			return "bg-red-100 border-red-500 text-red-700";
+		} else {
+			return "bg-green-100 border-green-500 text-green-700";
+		}
+	};
+
 		return (
 			<div className="flex bg-white bg-opacity-90 border border-green-500 shadow-md shadow-green-500/50 rounded-lg overflow-hidden">
 				<div className="w-full p-4">
 					<div className="grid md:grid-cols-4 gap-4">
 						<Image layout="responsive" width={400} height={400} objectFit="cover"
-						       className="rounded-t-lg md:rounded-none md:rounded-l-lg col-span-1" src={plantImage}
+						       className="rounded-t-lg md:rounded-none md:rounded-l-lg col-span-1" src={plantImage || 'https://via.placeholder.com/150'}
 						       alt={plantName}/>
 						{/* Column 1: Plant Overall Information */}
 						<div>
@@ -38,13 +67,12 @@ export default function PlantCard(props){
 							<h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-3">Plant
 								statistics</h5>
 
-							{/*TODO: Color code based on limits*/}
-							<div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mb-2">
+							<div className={`${humidityClass()} border-l-4 p-2 mb-2`}>
 								<p className="font-bold">Soil humidity</p>
 								<p>{plantHumidity}%</p>
 							</div>
 
-							<div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mb-2">
+							<div className={`${temperatureClass()} border-l-4 p-2 mb-2`}>
 								<p className="font-bold">Soil temperature</p>
 								<p>{plantTemperature}°C</p>
 							</div>

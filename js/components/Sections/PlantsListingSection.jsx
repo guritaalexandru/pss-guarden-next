@@ -1,16 +1,27 @@
 "use client"
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PlantCard from "@/js/components/Parts/PlantCard";
-import {getPlantsByUser} from "@/js/utils/serverCalls";
+import {getPlantsByUser,} from "@/js/utils/serverCalls";
 
 export default function PlantsListingSection(props){
-	const [plantsArray, setPlantsArray] = React.useState([])
-	React.useEffect(() => {
-		getPlantsByUser(1).then((plants) => {
+	const [plantsArray, setPlantsArray] = useState([])
+
+	useEffect(() => {
+		const fetchPlants = async () => {
+			const plants = await getPlantsByUser(1);
 			setPlantsArray(plants)
-		})
-	}, [])
+		}
+		fetchPlants();
+	}, []);
+
+	if (plantsArray.length === 0) {
+		return (
+			<p>
+				Loading your plants...
+			</p>
+		)
+	}
 
 	return (
 		<div id={'PlantsListingSection'}>
@@ -21,15 +32,14 @@ export default function PlantsListingSection(props){
 						{
 							plantsArray.map((plant, index) => {
 								return (
-									<div className={'w-full mt-4'}>
-										<PlantCard plant = {plant} key={index}/>
+									<div className={'w-full mt-4'} key={index}>
+										<PlantCard plant = {plant}/>
 									</div>
 								)
 							})
 						}
 					</div>
 				</div>
-
 			</div>
 		</div>
 	)

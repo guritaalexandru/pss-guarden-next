@@ -6,7 +6,7 @@ const Nav = () => {
     const isUserLoggedIn = true;
     return (
         <nav className="bg-gradient-to-r from-green-400 to-green-600">
-            <div className={'content-container flex justify-between items-center w-full mb-16 pt-3 '}>
+            <div className={'content-container flex justify-between items-center w-full pt-3 '}>
                 <Link href="/">
                     <div className="flex items-center gap-2">
                         <Image

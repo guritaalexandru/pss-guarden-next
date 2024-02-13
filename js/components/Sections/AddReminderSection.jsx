@@ -1,26 +1,30 @@
 "use client"
 
-import React, { useState } from "react";
-
-// Assuming you have a list of plants to select from
-const plants = [
-	{ name: "Rose", type: "Flower" },
-	{ name: "Tomato", type: "Vegetable" },
-	{ name: "Fern", type: "Houseplant" }
-];
+import React, {useEffect, useState} from "react";
+import {getPlantsByUser, postNewReminder} from "@/js/utils/serverCalls";
 
 export default function AddReminderSection(props) {
-	const [selectedPlant, setSelectedPlant] = useState(plants[0].name); // Default to first plant
+	const [selectedPlant, setSelectedPlant] = useState(""); // Default to first plant
 	const [reminderDate, setReminderDate] = useState("");
 	const [reminderDescription, setReminderDescription] = useState("");
+
+	const [userPlants, setUserPlants] = useState([]);
+
+	useEffect(() => {
+		const fetchUserPlants = async () => {
+			const userPlants = await getPlantsByUser(1);
+			setUserPlants(userPlants)
+		}
+		fetchUserPlants();
+	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		console.log("Reminder Set For:", selectedPlant, reminderDate, reminderDescription);
+		postNewReminder(1, reminderDate, reminderDescription, selectedPlant);
 
 		// Resetting form fields after submission
-		setSelectedPlant(plants[0].name);
+		setSelectedPlant(userPlants[0].plantName);
 		setReminderDate("");
 		setReminderDescription("");
 	};
@@ -36,8 +40,8 @@ export default function AddReminderSection(props) {
 					onChange={(e) => setSelectedPlant(e.target.value)}
 					className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				>
-					{plants.map((plant, index) => (
-						<option key={index} value={plant.name}>{plant.name}</option>
+					{userPlants.length && userPlants.map((plant, index) => (
+						<option key={index} value={plant.plantId}>{plant.plantName}</option>
 					))}
 				</select>
 			</div>

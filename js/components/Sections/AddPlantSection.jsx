@@ -1,16 +1,29 @@
 "use client"
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {getPlantsTypes, postNewPlant} from "@/js/utils/serverCalls";
 
 export default function AddPlantSection(props){
 	const [plantName, setPlantName] = useState("");
 	const [plantImage, setPlantImage] = useState("");
 	const [plantType, setPlantType] = useState("");
 
+	const [plantTypes, setPlantTypes] = useState([]);
+
+	useEffect(() => {
+		const fetchPlantTypes = async () => {
+			const plantTypes = await getPlantsTypes();
+			setPlantTypes(plantTypes)
+		}
+		fetchPlantTypes();
+	}, []);
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
 		console.log("Submitted:", plantName, plantImage, plantType);
+
+		postNewPlant(1, plantName, plantImage, plantType);
 
 		// Resetting form fields after submission
 		setPlantName("");
@@ -45,13 +58,20 @@ export default function AddPlantSection(props){
 
 			<div className="mb-4">
 				<label htmlFor="plantType" className="block text-gray-700 font-bold mb-2">Plant Type</label>
-				<input
-					type="text"
+				<select
 					id="plantType"
 					value={plantType}
 					onChange={(e) => setPlantType(e.target.value)}
-					className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-				/>
+					className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+					<option value="">Select a plant type</option>
+					{
+						plantTypes.length && plantTypes.map((type, index) => {
+							return (
+								<option key={index} value={type.plantTypeId}>{type.plantTypeName}</option>
+							)
+						})
+					}
+				</select>
 			</div>
 
 			<button type="submit"
