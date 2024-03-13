@@ -9,7 +9,10 @@ const ProtectedRoute = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	const router = useRouter();
-	const token = localStorage.getItem('token');
+	let token = '';
+	if (typeof window !== 'undefined') {
+		token = localStorage.getItem('token')
+	}
 
 	useEffect(() => {
 		const checkToken = async () => {

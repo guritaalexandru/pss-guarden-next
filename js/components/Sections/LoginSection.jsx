@@ -11,7 +11,10 @@ export default function LoginSection() {
 
 	const router = useRouter();
 
-	const token = localStorage.getItem("token");
+	let token = '';
+	if (typeof window !== 'undefined') {
+		token = localStorage.getItem('token')
+	}
 	if (token) {
 		router.push("/dashboard");
 	}

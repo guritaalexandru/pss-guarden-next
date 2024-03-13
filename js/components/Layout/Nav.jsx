@@ -4,7 +4,10 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 
 const Nav = () => {
-    const token = localStorage.getItem('token');
+    let token = '';
+    if (typeof window !== 'undefined') {
+        token = localStorage.getItem('token')
+    }
 
     const isUserLoggedIn = token !== null && token !== undefined && token !== '';
     return (
