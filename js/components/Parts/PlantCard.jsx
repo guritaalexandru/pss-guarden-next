@@ -233,12 +233,12 @@ export default function PlantCard(props){// New state to hold the editable name
 
 							<div className={`${humidityClass()} border-l-4 p-2 mb-2`}>
 								<p className="font-bold">Soil humidity</p>
-								<p>{plantHumidity}%</p>
+								<p>{plantHumidity.toFixed(2)}%</p>
 							</div>
 
 							<div className={`${temperatureClass()} border-l-4 p-2 mb-2`}>
 								<p className="font-bold">Soil temperature</p>
-								<p>{plantTemperature}°C</p>
+								<p>{plantTemperature.toFixed(2)}°C</p>
 							</div>
 
 							<div className="mt-3 bg-red-100  text-red-700">
