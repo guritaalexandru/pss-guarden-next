@@ -49,6 +49,25 @@ export default function PlantCard(props){// New state to hold the editable name
 	console.log('plantTypes', plantTypes);
 	console.log('userSensors', userSensors);
 
+	//reminder time
+	const getReminderTime=()=>{
+		if (reminders&& reminders.length!=0){
+
+			const dateObject = new Date(reminders[0].time);
+			const year = dateObject.getFullYear();
+			const month = dateObject.getMonth() + 1; 
+			const day = dateObject.getDate();
+			const hours = dateObject.getHours();
+			const minutes = dateObject.getMinutes();	
+			const reminderTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours}:${minutes}`;	 
+			 return reminderTime;
+		}
+	}
+
+	const ReminderTime=getReminderTime();
+
+
+
 	// Function to determine the class for humidity
 	const humidityClass = () => {
 		if (plantHumidity > plantHumidityUpperThreshold || plantHumidity < plantHumidityLowerThreshold) {
@@ -197,8 +216,13 @@ export default function PlantCard(props){// New state to hold the editable name
 									</h4>
 								</div>
 								<h4>
+									{ReminderTime}
+								</h4>
+
+								<h4 className="mt-3">
 									{reminders[0].reminderMessage}
 								</h4>
+								
 							</div>)}
 						</div>
 
