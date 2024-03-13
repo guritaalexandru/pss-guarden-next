@@ -1,20 +1,20 @@
 import React from 'react';
 import Nav from "@/js/components/Layout/Nav";
 import Footer from "@/js/components/Layout/Footer";
-import AddReminderPage from "@/js/components/Pages/AddReminderPage";
 import ProtectedRoute from "@/js/components/Pages/ProtectedRoute";
+import SensorsListingPage from "@/js/components/Pages/SensorsListingPage";
 
-export default function AddReminderIndex() {
+export default function SensorsIndex() {
   return (
       <main className="page-container relative">
           <Nav/>
           <ProtectedRoute>
               <div className={'content-container'}>
                   <h1 className={'text-5xl text-center mb-10 mt-10'}>
-                      Add a reminder!
+                      Your sensors
                   </h1>
               </div>
-              <AddReminderPage/>
+              <SensorsListingPage/>
           </ProtectedRoute>
           <Footer/>
       </main>

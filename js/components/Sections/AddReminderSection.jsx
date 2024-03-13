@@ -12,7 +12,7 @@ export default function AddReminderSection(props) {
 
 	useEffect(() => {
 		const fetchUserPlants = async () => {
-			const userPlants = await getPlantsByUser(1);
+			const userPlants = await getPlantsByUser();
 			setUserPlants(userPlants)
 		}
 		fetchUserPlants();
@@ -21,7 +21,7 @@ export default function AddReminderSection(props) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		postNewReminder(1, reminderDate, reminderDescription, selectedPlant);
+		postNewReminder(reminderDate, reminderDescription, selectedPlant);
 
 		// Resetting form fields after submission
 		setSelectedPlant(userPlants[0].plantName);
@@ -40,6 +40,7 @@ export default function AddReminderSection(props) {
 					onChange={(e) => setSelectedPlant(e.target.value)}
 					className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 				>
+					<option value="">Select a plant</option>
 					{userPlants.length && userPlants.map((plant, index) => (
 						<option key={index} value={plant.plantId}>{plant.plantName}</option>
 					))}
